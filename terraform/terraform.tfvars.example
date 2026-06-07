@@ -1,0 +1,6 @@
+aws_region         = "us-east-1"
+cluster_name       = "project-bedrock-cluster"
+vpc_name           = "project-bedrock-vpc"
+student_id         = "alt-soe-025-4722"
+db_username        = "bedrockadmin"
+db_password        = "CHANGE_ME"
