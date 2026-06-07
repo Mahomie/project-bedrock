@@ -22,6 +22,10 @@ resource "aws_security_group" "eks_nodes" {
   tags = {
     Name = "${var.cluster_name}-nodes-sg"
   }
+
+  lifecycle {
+    ignore_changes = [ingress]
+  }
 }
 
 resource "aws_security_group" "rds_mysql" {
