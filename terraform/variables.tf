@@ -73,12 +73,13 @@ variable "student_id" {
 variable "db_username" {
   description = "Master username for RDS instances"
   type        = string
-  default     = "admin"
+  default     = "bedrockadmin"
   sensitive   = true
 }
 
 variable "db_password" {
   description = "Master password for RDS instances"
   type        = string
+  default     = "B3dr0ckSecure!2025"
   sensitive   = true
 }
