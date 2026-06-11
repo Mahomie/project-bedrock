@@ -38,7 +38,7 @@ helm upgrade --install retail-store \
 
 ## Grading Credentials
 - **IAM User:** bedrock-dev-view
-- **Access Key ID:** REDACTED
+- **Access Key ID:** (provided separately in submission document)
 - **Console URL:** https://425221105441.signin.aws.amazon.com/console
 
 ## Terraform Outputs
