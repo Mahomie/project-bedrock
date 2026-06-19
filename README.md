@@ -47,3 +47,17 @@ Generated `grading.json` is committed to the repo root.
 
 ## Resource Tagging
 All resources tagged: `Project: karatu-2025-capstone`
+
+## Bonus: HTTPS / TLS (Objective 5.2)
+- Custom DNS via nip.io: `https://3.214.58.99.nip.io`
+- TLS terminated at the ALB using an ACM certificate
+- HTTP (port 80) automatically redirects to HTTPS (port 443)
+- Note: certificate is self-signed (no owned domain), so browsers show a trust warning. TLS itself works and the certificate is managed in AWS Certificate Manager.
+
+## Bonus: Helm Deployment (Objective 5.1)
+The application is deployed via the upstream Helm chart with a custom values.yaml overriding the data layer to use RDS and DynamoDB:
+
+    helm upgrade --install retail-store \
+      oci://public.ecr.aws/aws-containers/retail-store-sample-chart \
+      --version 0.8.5 -n retail-app \
+      -f k8s/app/values.yaml --timeout 10m --wait
