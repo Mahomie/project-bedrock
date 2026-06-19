@@ -6,6 +6,9 @@ metadata:
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:425221105441:certificate/6fb59f1f-3550-49fe-9380-983cfdf6dba7
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
     alb.ingress.kubernetes.io/healthcheck-path: /
     alb.ingress.kubernetes.io/healthcheck-interval-seconds: "30"
     alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
@@ -15,7 +18,8 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - http:
+    - host: 3.214.58.99.nip.io
+      http:
         paths:
           - path: /
             pathType: Prefix
