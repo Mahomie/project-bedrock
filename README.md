@@ -36,6 +36,10 @@ helm upgrade --install retail-store \
   --wait
 ```
 
+
+## Application Version Note
+This deployment uses the official AWS `retail-store-sample-chart` Helm chart (v0.8.5 — the latest published version of the chart on Amazon ECR Public), with a custom `values.yaml` overriding the in-cluster databases to use managed AWS services (RDS MySQL, RDS PostgreSQL, DynamoDB). The chart is sourced from the official `aws-containers` organization. Note: the Helm chart's version line (0.8.x) is maintained independently from the application's GitHub release tags (v1.x) — both are official AWS distributions of the same retail store sample app.
+
 ## Grading Credentials
 - **IAM User:** bedrock-dev-view
 - **Access Key ID:** (provided separately in submission document)
