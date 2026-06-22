@@ -83,3 +83,5 @@ variable "db_password" {
   default     = "B3dr0ckSecure!2025"
   sensitive   = true
 }
+
+# CI/CD demonstration: this change triggers the PR plan workflow
