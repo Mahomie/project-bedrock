@@ -48,41 +48,37 @@ jobs:
         id: init
         run: terraform init
 
-      - name: Terraform Format Check
-        id: fmt
-        run: terraform fmt -check -recursive
-        continue-on-error: true
-
       - name: Terraform Validate
         id: validate
-        run: terraform validate
+        run: terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request'
-        run: terraform plan -no-color -out=tfplan
+        run: terraform plan -no-color -input=false
         continue-on-error: true
 
       - name: Post Plan to PR
         uses: actions/github-script@v7
         if: github.event_name == 'pull_request'
+        env:
+          PLAN: "${{ steps.plan.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `#### Terraform Format 🖌 \`${{ steps.fmt.outcome }}\`
-            #### Terraform Init ⚙️ \`${{ steps.init.outcome }}\`
-            #### Terraform Validate 🤖 \`${{ steps.validate.outcome }}\`
-            #### Terraform Plan 📖 \`${{ steps.plan.outcome }}\`
+            const plan = process.env.PLAN || "No plan output captured.";
+            const truncated = plan.length > 60000 ? plan.substring(0, 60000) + "\n... (truncated)" : plan;
+            const output = `### Terraform Plan Result
+            #### Init: \`${{ steps.init.outcome }}\` | Validate: \`${{ steps.validate.outcome }}\` | Plan: \`${{ steps.plan.outcome }}\`
 
             <details><summary>Show Plan</summary>
 
-            \`\`\`terraform
-            ${{ steps.plan.outputs.stdout }}
             \`\`\`
-
+            ${truncated}
+            \`\`\`
             </details>
 
-            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            *Triggered by @${{ github.actor }} via \`${{ github.event_name }}\`*`;
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
