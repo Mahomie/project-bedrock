@@ -1,0 +1,7 @@
+app:
+  persistence:
+    provider: redis
+  endpoints:
+    orders: http://orders:80
+redis:
+  create: true

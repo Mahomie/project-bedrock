@@ -1,0 +1,8 @@
+app:
+  persistence:
+    provider: dynamodb
+    dynamodb:
+      tableName: retail-store-carts
+      createTable: false
+dynamodb:
+  create: false

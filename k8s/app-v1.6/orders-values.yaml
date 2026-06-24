@@ -1,0 +1,14 @@
+app:
+  persistence:
+    provider: postgres
+    endpoint: project-bedrock-cluster-postgres.cql4mmi28egn.us-east-1.rds.amazonaws.com:5432
+    database: orders
+    secret:
+      create: false
+      name: orders-db-1-6
+  messaging:
+    provider: rabbitmq
+postgresql:
+  create: false
+rabbitmq:
+  create: true
