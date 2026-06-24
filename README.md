@@ -24,23 +24,16 @@ http://k8s-retailap-retailst-17d19cf248-733961238.us-east-1.elb.amazonaws.com
 1. Merge the Pull Request to `main`
 2. GitHub Actions will automatically run `terraform apply`
 
-## Deploy Application (Helm)
+## Deploy Application (Helm — v1.6.1 per-service charts)
+The Retail Store Sample App (v1.6.1) is deployed using the official AWS per-service Helm charts, with the data layer overridden to managed AWS services (RDS MySQL, RDS PostgreSQL, DynamoDB). DB credentials are sourced from AWS Secrets Manager at deploy time and injected as Kubernetes secrets (never hardcoded).
+
 ```bash
 aws eks update-kubeconfig --region us-east-1 --name project-bedrock-cluster
-helm upgrade --install retail-store \
-  oci://public.ecr.aws/aws-containers/retail-store-sample-chart \
-  --version 0.8.5 \
-  -n retail-app \
-  -f k8s/app/values.yaml \
-  --timeout 10m \
-  --wait
+cd k8s/app-v1.6
+./deploy.sh
 ```
 
-
-## Application Version Note
-This deployment uses the official AWS `retail-store-sample-chart` umbrella Helm chart (v0.8.5 — the latest available version of the single-command umbrella chart on Amazon ECR Public), with a custom `values.yaml` overriding the in-cluster databases to use managed AWS services (RDS MySQL, RDS PostgreSQL, DynamoDB). The chart is sourced from the official `aws-containers` organization.
-
-Note on versioning: AWS's newer 1.x releases (e.g. 1.6.1) are published only as separate per-service charts (`retail-store-sample-ui-chart`, `-catalog-chart`, etc.), deployed one service at a time. The combined umbrella chart that enables a single `helm upgrade --install` deployment is versioned 0.8.x, with 0.8.5 being the latest. The umbrella chart was deliberately chosen to satisfy the single-command Helm deployment (bonus objective 5.1).
+This deploys all five services (catalog, orders, carts, checkout, ui) at version 1.6.1 and applies the ALB Ingress. Per-service values files are in `k8s/app-v1.6/`.
 
 ## Grading Credentials
 - **IAM User:** bedrock-dev-view
